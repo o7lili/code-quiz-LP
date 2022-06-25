@@ -1,6 +1,7 @@
 :root {
-    --primary-color: #AED2BA;
-    --secondary-color: ;
+    --primary-color: #416C50;
+    --secondary-color: #AED2BA;
+    --btn-font-color: white;
 }
 
 /* disables default browser styles */
@@ -21,37 +22,72 @@
  }
 
  header .high-scores {
-    color: var(--primary-color);
+    color: var(--secondary-color);
  }
+ /* end header styles */
 
  .card {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     margin: 0 auto;
-    max-width: 915px;
+    width: 800px;
+    max-width: 80%;
     padding: 30px 40px;
     text-align: center;
  }
 
-.card-header {
-    font-size: 30px;
+.card-header, h1 {
+    font-size: 35px;
     font-weight: bold;
 }
 
- .card-body {
+.card-header, p {
+    padding: 15px;
+    font-size: 25px;
+}
+
+ /* .card-body {
     padding: 15px;
     font-size: 27px;
+ } */
+
+ .card-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
  }
 
  .btn {
     border: none;
     border-radius: 10px;
     background-color: var(--primary-color);
-    color: white;
+    color: var(--btn-font-color);
     display: flex;
     flex-wrap: wrap;
+    justify-content: start;
     font-size: 28px;
-    margin: 16px 16px 16px 20px;
+    margin: 10px 10px 10px 15px;
     padding: 14px 34px;
+    max-width: 45%;
+    cursor: pointer;
  }
+
+ .btn:hover {
+    background-color: var(--secondary-color);
+ }
+
+ #answer-btns {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0;
+ }
+
+#start-btn, #submit-btn {
+    max-width: 100%;
+    justify-content: center;
+}
+
+.hide, #hide {
+    display: none;
+}

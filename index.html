@@ -13,17 +13,25 @@
         <h3>Time: <span class="timer">0</span></h3>
     </header>
     <section class="card">
-        <div class="card-header">
-            <h1>Coding Quiz Challenge<!-- add quiz questions content --></h1>
+        <div id="card-container">
+            <div id="card-header">
+                <h1>Coding Quiz Challenge<!-- actual questions will go here --></h1>
+                <p>Try to answer the following code-related questions within the time limit. Keep in mind incorrect answers will penalize your score/time by ten seconds!</p>
+            </div>
+            <div id="answer-btns" class="card-body">
+                <button class="answer btn hide">Answer 1</button>
+                <button class="answer btn hide">Answer 2</button>
+                <button class="answer btn hide">Answer 3</button>
+                <button class="answer btn hide">Answer 4</button>
+                <!-- <label for="initials">Enter Initials: </label> -->
+                <!-- <input type="text" id="initials" name="initials"> -->
+            </div>
         </div>
-        <div class="card-body">
-            <!-- add content for quiz instructions/desc. and area to add answer choices -->
-            <p>Try to answer the following code-related questions within the time limit. Keep in mind incorrect answers will penalize your score/time by ten seconds!</p>
-        </div>
-        <div class="card-footer">
-            <button id="start" class="btn">Start Quiz</button>
-            <h2><!-- correct/wrong when choice is clicked --></h2>
-        </div>
+            <div class="card-footer">
+                <button id="start-btn" class="start-btn btn">Start Quiz</button>
+                <button id="submit-btn" class="submit-btn btn hide">Submit</button> <!-- for submitting initials for high scores -->
+                <h2><!-- correct/wrong when choice is clicked --></h2>
+            </div>
     </section>
     <script src="./assets/js/script.js"></script>
 </body>
