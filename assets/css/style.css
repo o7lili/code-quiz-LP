@@ -1,0 +1,57 @@
+:root {
+    --primary-color: #AED2BA;
+    --secondary-color: ;
+}
+
+/* disables default browser styles */
+* {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+ /* header styles start */
+ header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 30px;
+    font-size: 20px;
+ }
+
+ header .high-scores {
+    color: var(--primary-color);
+ }
+
+ .card {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 auto;
+    max-width: 915px;
+    padding: 30px 40px;
+    text-align: center;
+ }
+
+.card-header {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+ .card-body {
+    padding: 15px;
+    font-size: 27px;
+ }
+
+ .btn {
+    border: none;
+    border-radius: 10px;
+    background-color: var(--primary-color);
+    color: white;
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 28px;
+    margin: 16px 16px 16px 20px;
+    padding: 14px 34px;
+ }
