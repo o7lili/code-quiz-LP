@@ -14,23 +14,27 @@
     </header>
     <section class="card">
         <div id="card-container">
-            <div id="card-header">
-                <h1>Coding Quiz Challenge<!-- actual questions will go here --></h1>
-                <p>Try to answer the following code-related questions within the time limit. Keep in mind incorrect answers will penalize your score/time by ten seconds!</p>
+            <div id="card-info">
+                <h1 id="card-header">Coding Quiz Challenge<!-- actual questions will go here --></h1>
+                <p id="quiz-instructions">Try to answer the following code-related questions within the time limit. Keep in mind incorrect answers will penalize your score/time by ten seconds!</p>
+            </div>
+            <div id="final-score" class="hide">
+                <h1>All Done!</h1>
+                <p id="score"></p>
+                <label for="initials">Enter Initials: </label>
+                <input type="text" id="initials" name="initials">
+                <button id="submit-btn" class="submit-btn btn hide">Submit</button> <!-- for submitting initials for high scores -->
             </div>
             <div id="answer-btns" class="card-body">
                 <button class="answer btn hide">Answer 1</button>
                 <button class="answer btn hide">Answer 2</button>
                 <button class="answer btn hide">Answer 3</button>
                 <button class="answer btn hide">Answer 4</button>
-                <!-- <label for="initials">Enter Initials: </label> -->
-                <!-- <input type="text" id="initials" name="initials"> -->
             </div>
         </div>
             <div class="card-footer">
                 <button id="start-btn" class="start-btn btn">Start Quiz</button>
-                <button id="submit-btn" class="submit-btn btn hide">Submit</button> <!-- for submitting initials for high scores -->
-                <h2><!-- correct/wrong when choice is clicked --></h2>
+                <h2 id="correct-wrong"><!-- correct/wrong when choice is clicked --></h2>
             </div>
     </section>
     <script src="./assets/js/script.js"></script>

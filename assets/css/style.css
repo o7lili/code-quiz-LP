@@ -2,6 +2,7 @@
     --primary-color: #416C50;
     --secondary-color: #AED2BA;
     --btn-font-color: white;
+    --correct-wrong-color: slategrey;
 }
 
 /* disables default browser styles */
@@ -47,10 +48,10 @@
     font-size: 25px;
 }
 
- /* .card-body {
+ .card-body {
     padding: 15px;
     font-size: 27px;
- } */
+ }
 
  .card-footer {
     display: flex;
@@ -86,6 +87,17 @@
 #start-btn, #submit-btn {
     max-width: 100%;
     justify-content: center;
+}
+
+#submit-btn {
+    font-size: 20px;
+    margin: 10px;
+    padding: 5px 10px;
+}
+
+#correct-wrong {
+    font-style: italic;
+    color: var(--correct-wrong-color);
 }
 
 .hide, #hide {
