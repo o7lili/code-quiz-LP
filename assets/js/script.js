@@ -7,6 +7,7 @@
 // "view high scores" links to display leader board page
 
 var timerEl = document.querySelector('.timer');
+var secondsLeft = 80;
 var scoresEl = document.querySelector('.high-scores');
 var startBtn = document.getElementById('start-btn');
 var quizInfo = document.getElementById('quiz-instructions');
@@ -17,100 +18,6 @@ var finalScore = document.getElementById('final-score');
 var answerConfirm = document.getElementById('correct-wrong');
 var submitBtn = document.getElementById('submit-btn');
 var scoreText = document.getElementById('score');
-
-let randomQuestions, currentQuestionIndex
-
-startBtn.addEventListener('click', startQuiz);
-answerBtnsEl.addEventListener('click', () => {
-    currentQuestionIndex++;
-    setNextQuestion();
-});
-
-
-function startQuiz() {
-    countdown();
-    console.log('started');
-    startBtn.classList.add('hide');
-    randomQuestions = questions.sort(() => Math.random() - .5);
-    currentQuestionIndex = 0;
-    quizInfo.classList.add('hide');
-    answerBtns.forEach(answer => {
-        // remove class from each element
-        answer.classList.remove('hide')
-    });
-    setNextQuestion();
-};
-
-function countdown() {
-    var timeLeft = 80;
-
-    var timeInterval = setInterval( function () {
-        if (timeLeft > 1) {
-            timeLeft--;
-        }
-        else {
-            clearInterval(timeInterval);
-            displayMessage();
-        }
-    }, 1000);
-}
-
-function setNextQuestion() {
-    resetState();
-    showQuestion(randomQuestions[currentQuestionIndex]);
-};
-
-function showQuestion(question) {
-    questionEl.innerText = question.question;
-    question.answers.forEach(answer => {
-        var button = document.createElement('button');
-        button.innerText = answer.text;
-        button.classList.add('btn');
-        if(answer.correct) {
-            button.dataset.correct = answer.correct
-        }
-        button.addEventListener('click', selectAnswer);
-        answerBtnsEl.appendChild(button);
-    });
-};
-
-function resetState() {
-    while (answerBtnsEl.firstChild) {
-        answerBtnsEl.removeChild(answerBtnsEl.firstChild);
-    };
-};
-
-function selectAnswer(e) {
-    var selectedBtn = e.target;
-    var correct = selectedBtn.dataset.correct;
-    setStatusClass(document.body, correct);
-    Array.from(answerBtnsEl.children).forEach(button => {
-        setStatusClass(button, button.dataset.correct);
-    });
-
-    if (randomQuestions.length > currentQuestionIndex + 1) {
-       setNextQuestion();
-    }
-    else {
-        questionEl.classList.add('hide');
-        answerBtnsEl.classList.add('hide');
-        finalScore.classList.remove('hide');
-        answerConfirm.classList.add('hide');
-        submitBtn.classList.remove('hide');
-        scoreText.innerHTML = "<p>Your final score is " + timer + ".</p>"; 
-    };
-};
-
-function setStatusClass(element, correct) {
-    if (correct) {
-        answerConfirm.innerHTML = "Correct!";
-        element.classList.add('correct');
-    }
-    else {
-        answerConfirm.innerHTML = "Wrong!";
-        element.classList.add('wrong');
-    }
-};
 
 var questions = [
     {
@@ -163,3 +70,97 @@ var questions = [
         ]
     },
 ];
+
+let randomQuestions, currentQuestionIndex
+
+// start timer countdown
+function countdown() {
+    var timeInterval = setInterval( function () {
+        secondsLeft--;
+        timerEl.textContent = secondsLeft;
+
+        if(secondsLeft === 0) {
+            clearInterval(timeInterval);
+        }
+    }, 1000);
+};
+
+startBtn.addEventListener('click', startQuiz);
+answerBtnsEl.addEventListener('click', () => {
+    currentQuestionIndex++;
+    setNextQuestion();
+});
+
+
+function startQuiz() {
+    countdown();
+    console.log('started');
+    startBtn.classList.add('hide');
+    randomQuestions = questions.sort(() => Math.random() - .5);
+    currentQuestionIndex = 0;
+    quizInfo.classList.add('hide');
+    answerBtns.forEach(answer => {
+        // remove class from each element
+        answer.classList.remove('hide')
+    });
+    setNextQuestion();
+};
+
+
+function setNextQuestion() {
+    resetState();
+    showQuestion(randomQuestions[currentQuestionIndex]);
+};
+
+function showQuestion(question) {
+    questionEl.innerText = question.question;
+    question.answers.forEach(answer => {
+        var button = document.createElement('button');
+        button.innerText = answer.text;
+        button.classList.add('btn');
+        if(answer.correct) {
+            button.dataset.correct = answer.correct
+        }
+        button.addEventListener('click', selectAnswer);
+        answerBtnsEl.appendChild(button);
+    });
+};
+
+function resetState() {
+    while (answerBtnsEl.firstChild) {
+        answerBtnsEl.removeChild(answerBtnsEl.firstChild);
+    };
+};
+
+function selectAnswer(e) {
+    var selectedBtn = e.target;
+    var correct = selectedBtn.dataset.correct;
+    setStatusClass(document.body, correct);
+    Array.from(answerBtnsEl.children).forEach(button => {
+        setStatusClass(button, button.dataset.correct);
+    });
+
+    if (randomQuestions.length > currentQuestionIndex + 1) {
+       setNextQuestion();
+    }
+    else {
+        questionEl.classList.add('hide');
+        answerBtnsEl.classList.add('hide');
+        finalScore.classList.remove('hide');
+        answerConfirm.classList.add('hide');
+        submitBtn.classList.remove('hide');
+        scoreText.innerHTML = "Your final score is " + timerEl + "."; 
+    };
+};
+
+function setStatusClass(element, correct) {
+    if (correct) {
+        answerConfirm.innerHTML = "Correct!";
+        element.classList.add('correct');
+    }
+    else {
+        answerConfirm.innerHTML = "Wrong!";
+        element.classList.add('wrong');
+    }
+};
+
