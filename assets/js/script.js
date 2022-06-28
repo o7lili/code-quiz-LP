@@ -91,7 +91,7 @@ answerBtnsEl.addEventListener('click', () => {
     setNextQuestion();
 });
 
-
+// quiz starts when start button is clicked
 function startQuiz() {
     countdown();
     console.log('started');
@@ -106,12 +106,20 @@ function startQuiz() {
     setNextQuestion();
 };
 
-
+// sets up page for next question
 function setNextQuestion() {
     resetState();
     showQuestion(randomQuestions[currentQuestionIndex]);
 };
 
+// resets page to not show answer choice placeholders from HTML file
+function resetState() {
+    while (answerBtnsEl.firstChild) {
+        answerBtnsEl.removeChild(answerBtnsEl.firstChild);
+    };
+};
+
+// brings up next question when an answer is chosen
 function showQuestion(question) {
     questionEl.innerText = question.question;
     question.answers.forEach(answer => {
@@ -126,12 +134,7 @@ function showQuestion(question) {
     });
 };
 
-function resetState() {
-    while (answerBtnsEl.firstChild) {
-        answerBtnsEl.removeChild(answerBtnsEl.firstChild);
-    };
-};
-
+//for chosen answer, checks if correct or wrong to trigger "Correct!" or "Wrong!" card footer
 function selectAnswer(e) {
     var selectedBtn = e.target;
     var correct = selectedBtn.dataset.correct;
@@ -139,10 +142,11 @@ function selectAnswer(e) {
     Array.from(answerBtnsEl.children).forEach(button => {
         setStatusClass(button, button.dataset.correct);
     });
-
+    // brings up next question if there are more left in the questions array
     if (randomQuestions.length > currentQuestionIndex + 1) {
        setNextQuestion();
     }
+    // brings up submit high score card if no questions left in array
     else {
         questionEl.classList.add('hide');
         answerBtnsEl.classList.add('hide');
@@ -153,6 +157,7 @@ function selectAnswer(e) {
     };
 };
 
+// trigger function for correct or wrong card footer note
 function setStatusClass(element, correct) {
     if (correct) {
         answerConfirm.innerHTML = "Correct!";

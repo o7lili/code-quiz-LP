@@ -25,9 +25,13 @@
  header .high-scores {
     color: var(--secondary-color);
  }
+
+ a {
+    text-decoration: none;
+ }
  /* end header styles */
 
- .card {
+ .card, main {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -48,7 +52,7 @@
     font-size: 25px;
 }
 
- .card-body {
+ .card-body, .high-score {
     padding: 15px;
     font-size: 27px;
  }
@@ -84,12 +88,12 @@
     margin: 20px 0;
  }
 
-#start-btn, #submit-btn {
+#start-btn, #submit-btn{
     max-width: 100%;
     justify-content: center;
 }
 
-#submit-btn {
+#submit-btn, #back, #clear {
     font-size: 20px;
     margin: 10px;
     padding: 5px 10px;
@@ -102,4 +106,16 @@
 
 .hide, #hide {
     display: none;
+}
+
+/* high scores page extra styles */
+main {
+    display: block;
+    text-align: left;
+}
+
+#high-score {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    font-size: large;
 }
