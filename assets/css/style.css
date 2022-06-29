@@ -47,7 +47,7 @@
     font-weight: bold;
 }
 
-.card-header, p {
+.card-header, p, label {
     padding: 15px;
     font-size: 25px;
 }
@@ -97,6 +97,7 @@
     font-size: 20px;
     margin: 10px;
     padding: 5px 10px;
+    display: inline-flex;
 }
 
 #correct-wrong {

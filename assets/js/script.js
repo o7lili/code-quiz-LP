@@ -1,24 +1,22 @@
-// when start button is clicked, question and 4 answer choices appear from questions array
-// if correct answer is chosen, "correct!" appears in answer-footer and next question/answer choices appear
-// else "wrong!" appears in answer-footer, ten seconds are deducted from the timer, and next question/answer choices appear
-// loop back through questions array until finished
 // after last question answered, display score (time left) and form appears to enter initials for leader board
 // when button is clicked to submit initials for high score, take to page displaying scores
 // "view high scores" links to display leader board page
 
 var timerEl = document.querySelector('.timer');
+var currentQuestionIndex = 0;
 var secondsLeft = 80;
 var scoresEl = document.querySelector('.high-scores');
 var startBtn = document.getElementById('start-btn');
-var quizInfo = document.getElementById('quiz-instructions');
-var answerBtns = document.querySelectorAll('.answer');
-var questionEl = document.getElementById('card-header');
 var answerBtnsEl = document.getElementById('answer-btns');
+var answerBtns = document.querySelectorAll('.answer');
+var submitBtn = document.getElementById('submit-btn');
+var quizInfo = document.getElementById('quiz-instructions');
+var questionEl = document.getElementById('card-header');
 var finalScore = document.getElementById('final-score');
 var answerConfirm = document.getElementById('correct-wrong');
-var submitBtn = document.getElementById('submit-btn');
-var scoreText = document.getElementById('score');
+var timeInterval;
 
+// questions/answer choices array
 var questions = [
     {
         question: 'Commonly used data types DO Not Include:',
@@ -71,45 +69,166 @@ var questions = [
     },
 ];
 
-let randomQuestions, currentQuestionIndex
 
-// start timer countdown
-function countdown() {
-    var timeInterval = setInterval( function () {
-        secondsLeft--;
-        timerEl.textContent = secondsLeft;
-
-        if(secondsLeft === 0) {
-            clearInterval(timeInterval);
-        }
-    }, 1000);
-};
-
-startBtn.addEventListener('click', startQuiz);
-answerBtnsEl.addEventListener('click', () => {
+// click event listeners
+startBtn.addEventListener('click', function() {
+    countdown();
+    startQuiz(currentQuestionIndex);
+});
+answerBtnsEl.addEventListener('click', function() {
     currentQuestionIndex++;
     setNextQuestion();
 });
 
 // quiz starts when start button is clicked
 function startQuiz() {
-    countdown();
-    console.log('started');
     startBtn.classList.add('hide');
-    randomQuestions = questions.sort(() => Math.random() - .5);
-    currentQuestionIndex = 0;
     quizInfo.classList.add('hide');
+    
+    // loop through questions array
+    for (var i = 0; i < questions.length; i++) {
+        var questionTitle = questions[currentQuestionIndex].question;
+        var questionAnswers = questions[currentQuestionIndex].answers;
+
+        questionEl.textContent = questionTitle
+    }
+
     answerBtns.forEach(answer => {
-        // remove class from each element
+        // makes hidden answer elements visible
         answer.classList.remove('hide')
     });
     setNextQuestion();
 };
 
+//for chosen answer, checks if correct or wrong to trigger "Correct!" or "Wrong!" card footer
+function selectAnswer(e) {
+    var selectedBtn = e.target;
+    var correct = selectedBtn.dataset.correct;
+    setStatusClass(document.body, correct);
+};
+
+function endQuiz() {
+    // stops timer countdown
+    clearInterval(timeInterval);
+
+    timerEl.textContent = secondsLeft;
+
+    // clears questions/answers and brings up enter high score card elements
+    questionEl.classList.add('hide');
+    answerBtnsEl.classList.add('hide');
+    finalScore.classList.remove('hide');
+    answerConfirm.classList.add('hide');
+
+    // indicates to use the quiz is over
+    var finalH1 = document.createElement("h1");
+    finalH1.setAttribute("id", "finalH1");
+    finalH1.textContent = "All done!";
+
+    finalScore.appendChild(finalH1);
+
+    // shows final score (time left)
+    var finalP = document.createElement("p");
+    finalP.setAttribute("id", "finalP");
+
+    finalScore.appendChild(finalP);
+
+    // adds secondsLeft to final score
+    if(secondsLeft >= 0) {
+        var finalP2 = document.createElement("p");
+        finalP2.textContent = "Your final score is " + secondsLeft;
+        finalScore.appendChild(finalP2);
+    };
+
+    // label for form
+    var formLabel = document.createElement("label");
+    formLabel.setAttribute("for", "initials");
+    formLabel.textContent = "Enter Initials: ";
+
+    finalScore.appendChild(formLabel);
+    
+    // form to submit initials/score
+    var scoreForm = document.createElement("input");
+    scoreForm.setAttribute("id", "scoreForm");
+    scoreForm.setAttribute("type", "text");
+    scoreForm.setAttribute("name", "initials");
+    
+    finalScore.appendChild(scoreForm);
+
+    // submit button
+    var submitButton = document.createElement("button");
+    submitButton.setAttribute("id", "submit-btn");
+    submitButton.setAttribute("type", "submit");
+    submitButton.setAttribute("class", "submit-btn btn");
+    submitButton.textContent = "Submit";
+
+    finalScore.appendChild(submitButton);
+
+    // add score to local storage
+    submitButton.addEventListener("click", function() {
+        var initials = scoreForm.value;
+
+        if (!initials) {
+            alert("Please enter your initials");
+        }
+        else {
+            var finalScore = {
+                initials: initials,
+                score: secondsLeft,
+            }
+            var scores = localStorage.getItem("scores");
+            if (scores === null) {
+                scores = [];
+            }
+            else {
+                scores = JSON.parse(scores);
+            }
+            scores.push(finalScore);
+            var newScore = JSON.stringify(scores);
+            localStorage.setItem("scores", newScore);
+
+            //take user to high score page
+            window.location.replace("./highscores.html");
+        }
+    });
+
+};
+
+// trigger function for correct or wrong card footer note
+function setStatusClass(element, correct) {
+    if (correct) {
+        answerConfirm.innerHTML = "Correct!";
+        element.classList.add('correct');
+    }
+    else {
+        answerConfirm.innerHTML = "Wrong!";
+        element.classList.add('wrong');
+        secondsLeft = secondsLeft - 10;
+    }
+};
+
+// start timer countdown
+function countdown() {
+    timeInterval = setInterval( function () {
+        if(secondsLeft <= 0) {
+            secondsLeft = 0;
+            clearInterval(timeInterval);
+        } else {
+            secondsLeft--;
+        }
+        timerEl.textContent = secondsLeft;
+        
+    }, 1000);
+};
+
 // sets up page for next question
 function setNextQuestion() {
     resetState();
-    showQuestion(randomQuestions[currentQuestionIndex]);
+    // checks if more questions in array
+    if (currentQuestionIndex > questions.length - 1) {
+        endQuiz();
+        return;
+    }
+    showQuestion(questions[currentQuestionIndex]);
 };
 
 // resets page to not show answer choice placeholders from HTML file
@@ -134,38 +253,4 @@ function showQuestion(question) {
     });
 };
 
-//for chosen answer, checks if correct or wrong to trigger "Correct!" or "Wrong!" card footer
-function selectAnswer(e) {
-    var selectedBtn = e.target;
-    var correct = selectedBtn.dataset.correct;
-    setStatusClass(document.body, correct);
-    Array.from(answerBtnsEl.children).forEach(button => {
-        setStatusClass(button, button.dataset.correct);
-    });
-    // brings up next question if there are more left in the questions array
-    if (randomQuestions.length > currentQuestionIndex + 1) {
-       setNextQuestion();
-    }
-    // brings up submit high score card if no questions left in array
-    else {
-        questionEl.classList.add('hide');
-        answerBtnsEl.classList.add('hide');
-        finalScore.classList.remove('hide');
-        answerConfirm.classList.add('hide');
-        submitBtn.classList.remove('hide');
-        scoreText.innerHTML = "Your final score is " + timerEl + "."; 
-    };
-};
-
-// trigger function for correct or wrong card footer note
-function setStatusClass(element, correct) {
-    if (correct) {
-        answerConfirm.innerHTML = "Correct!";
-        element.classList.add('correct');
-    }
-    else {
-        answerConfirm.innerHTML = "Wrong!";
-        element.classList.add('wrong');
-    }
-};
 
