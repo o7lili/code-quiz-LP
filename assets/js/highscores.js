@@ -17,11 +17,18 @@ clearScore.addEventListener("click", function() {
 var scores = localStorage.getItem("scores");
 scores = JSON.parse(scores);
 
+scores.sort(function(a, b) {return b-a});
+let lowest = scores[0];
+
 if (scores !== null) {
     for (var i = 0; i < scores.length; i++) {
-        var createOl = document.createElement("ol");
-        createOl.textContent = scores[i].initials + "" + scores[i].score;
-        createOl.setAttribute("id", "high-score")
-        highScore.appendChild(createOl);
+        var createDiv = document.createElement("div");
+        createDiv.setAttribute("id", "high-score")
+        highScore.appendChild(createDiv);
+
+        var createLi = document.createElement("li");
+        createLi.textContent = scores[i].initials + "" + scores[i].score;
+        createLi.setAttribute("id", "score-item");
+        createDiv.appendChild(createLi);
     }
 }

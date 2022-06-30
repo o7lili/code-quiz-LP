@@ -115,8 +115,13 @@ main {
     text-align: left;
 }
 
-#high-score {
-    background-color: var(--secondary-color);
+#high-score, #score-item::marker {
     color: var(--primary-color);
     font-size: large;
+    padding: 3px;
+}
+
+#score-item {
+    box-shadow: 1px 1px 1px 1px var(--primary-color);
+    background-color: var(--secondary-color);
 }

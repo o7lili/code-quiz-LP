@@ -10,6 +10,7 @@ var startBtn = document.getElementById('start-btn');
 var answerBtnsEl = document.getElementById('answer-btns');
 var answerBtns = document.querySelectorAll('.answer');
 var submitBtn = document.getElementById('submit-btn');
+var cardInfo = document.getElementById('card-info');
 var quizInfo = document.getElementById('quiz-instructions');
 var questionEl = document.getElementById('card-header');
 var finalScore = document.getElementById('final-score');
@@ -47,7 +48,7 @@ var questions = [
             {text: '4. all of the above', correct: true},
         ]
     },
-
+    
     {
         question: 'String values must be enclosed within _____ when being assigned to variables',
         answers: [
@@ -89,7 +90,7 @@ function startQuiz() {
     for (var i = 0; i < questions.length; i++) {
         var questionTitle = questions[currentQuestionIndex].question;
         var questionAnswers = questions[currentQuestionIndex].answers;
-
+        
         questionEl.textContent = questionTitle
     }
 
@@ -99,6 +100,7 @@ function startQuiz() {
     });
     setNextQuestion();
 };
+
 
 //for chosen answer, checks if correct or wrong to trigger "Correct!" or "Wrong!" card footer
 function selectAnswer(e) {
@@ -110,40 +112,40 @@ function selectAnswer(e) {
 function endQuiz() {
     // stops timer countdown
     clearInterval(timeInterval);
-
+    
     timerEl.textContent = secondsLeft;
-
+    
     // clears questions/answers and brings up enter high score card elements
     questionEl.classList.add('hide');
     answerBtnsEl.classList.add('hide');
     finalScore.classList.remove('hide');
     answerConfirm.classList.add('hide');
-
+    
     // indicates to use the quiz is over
     var finalH1 = document.createElement("h1");
     finalH1.setAttribute("id", "finalH1");
     finalH1.textContent = "All done!";
-
+    
     finalScore.appendChild(finalH1);
-
+    
     // shows final score (time left)
     var finalP = document.createElement("p");
     finalP.setAttribute("id", "finalP");
-
+    
     finalScore.appendChild(finalP);
-
+    
     // adds secondsLeft to final score
     if(secondsLeft >= 0) {
         var finalP2 = document.createElement("p");
         finalP2.textContent = "Your final score is " + secondsLeft;
         finalScore.appendChild(finalP2);
     };
-
+    
     // label for form
     var formLabel = document.createElement("label");
     formLabel.setAttribute("for", "initials");
     formLabel.textContent = "Enter Initials: ";
-
+    
     finalScore.appendChild(formLabel);
     
     // form to submit initials/score
@@ -153,20 +155,20 @@ function endQuiz() {
     scoreForm.setAttribute("name", "initials");
     
     finalScore.appendChild(scoreForm);
-
+    
     // submit button
     var submitButton = document.createElement("button");
     submitButton.setAttribute("id", "submit-btn");
     submitButton.setAttribute("type", "submit");
     submitButton.setAttribute("class", "submit-btn btn");
     submitButton.textContent = "Submit";
-
+    
     finalScore.appendChild(submitButton);
-
+    
     // add score to local storage
     submitButton.addEventListener("click", function() {
         var initials = scoreForm.value;
-
+        
         if (!initials) {
             alert("Please enter your initials");
         }
@@ -185,12 +187,27 @@ function endQuiz() {
             scores.push(finalScore);
             var newScore = JSON.stringify(scores);
             localStorage.setItem("scores", newScore);
-
+            
             //take user to high score page
             window.location.replace("./highscores.html");
         }
     });
+    
+};
 
+// ends quiz and alerts user they ran out of time, gives them option to try again
+function timeOut() {
+    resetState();
+    cardInfo.classList.add('hide');
+    answerConfirm.classList.add('hide');
+    alert("You ran out of time!")
+    startBtn.classList.remove('hide');
+    startBtn.textContent = "Try Again?"
+
+    eventTarget = startBtn;
+    eventTarget.addEventListener("click", function(e) {
+        window.location.reload();
+    });
 };
 
 // trigger function for correct or wrong card footer note
@@ -212,6 +229,7 @@ function countdown() {
         if(secondsLeft <= 0) {
             secondsLeft = 0;
             clearInterval(timeInterval);
+            timeOut();
         } else {
             secondsLeft--;
         }
@@ -219,6 +237,7 @@ function countdown() {
         
     }, 1000);
 };
+
 
 // sets up page for next question
 function setNextQuestion() {
