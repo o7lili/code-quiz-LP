@@ -1,0 +1,127 @@
+:root {
+    --primary-color: #416C50;
+    --secondary-color: #AED2BA;
+    --btn-font-color: white;
+    --correct-wrong-color: slategrey;
+}
+
+/* disables default browser styles */
+* {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+ /* header styles start */
+ header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 30px;
+    font-size: 20px;
+ }
+
+ header .high-scores {
+    color: var(--secondary-color);
+ }
+
+ a {
+    text-decoration: none;
+ }
+ /* end header styles */
+
+ .card, main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 auto;
+    width: 800px;
+    max-width: 80%;
+    padding: 30px 40px;
+    text-align: center;
+ }
+
+.card-header, h1 {
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.card-header, p, label {
+    padding: 15px;
+    font-size: 25px;
+}
+
+ .card-body, .high-score {
+    padding: 15px;
+    font-size: 27px;
+ }
+
+ .card-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ }
+
+ .btn {
+    border: none;
+    border-radius: 10px;
+    background-color: var(--primary-color);
+    color: var(--btn-font-color);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    font-size: 28px;
+    margin: 10px 10px 10px 15px;
+    padding: 14px 34px;
+    max-width: 45%;
+    cursor: pointer;
+ }
+
+ .btn:hover {
+    background-color: var(--secondary-color);
+ }
+
+ #answer-btns {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0;
+ }
+
+#start-btn, #submit-btn{
+    max-width: 100%;
+    justify-content: center;
+}
+
+#submit-btn, #back, #clear {
+    font-size: 20px;
+    margin: 10px;
+    padding: 5px 10px;
+    display: inline-flex;
+}
+
+#correct-wrong {
+    font-style: italic;
+    color: var(--correct-wrong-color);
+}
+
+.hide, #hide {
+    display: none;
+}
+
+/* high scores page extra styles */
+main {
+    display: block;
+    text-align: left;
+}
+
+#high-score, #score-item::marker {
+    color: var(--primary-color);
+    font-size: large;
+    padding: 3px;
+}
+
+#score-item {
+    box-shadow: 1px 1px 1px 1px var(--primary-color);
+    background-color: var(--secondary-color);
+}
