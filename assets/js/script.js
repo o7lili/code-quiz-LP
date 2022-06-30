@@ -1,7 +1,3 @@
-// after last question answered, display score (time left) and form appears to enter initials for leader board
-// when button is clicked to submit initials for high score, take to page displaying scores
-// "view high scores" links to display leader board page
-
 var timerEl = document.querySelector('.timer');
 var currentQuestionIndex = 0;
 var secondsLeft = 80;
